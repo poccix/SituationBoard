@@ -31,6 +31,7 @@ class SourceEvent:
     SOURCE_SCANNER   = "SCANNER"
     SOURCE_MANUAL    = "MANUAL"
     SOURCE_BINARY    = "BINARY"
+    SOURCE_BOS925    = "BOS925"
 
     TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 

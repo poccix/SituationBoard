@@ -59,6 +59,12 @@ class PluginManager(Module):
                     parserPlugin = parserModule.MessageParserSMS(instanceName, self.__settings) # type: ignore
                 else:
                     self.fatal(f"Invalid parser plugin {parser} for source plugin {source}")
+            elif source == "bos925":
+                if parser == "gifhorn":
+                    parserModule = importlib.import_module("backend.source.MessageParserGifhorn")
+                    parserPlugin = parserModule.MessageParserGifhorn(instanceName, self.__settings) # type: ignore
+                else:
+                    self.fatal(f"Invalid parser plugin {parser} for source plugin {source}")
             else:
                 self.fatal(f"No parser plugin available/required for source plugin {source}")
 
@@ -104,6 +110,11 @@ class PluginManager(Module):
                     self.fatal("Fax source plugin not yet implemented")
                 elif source == "mail":
                     self.fatal("Mail source plugin not yet implemented")
+                elif source == "bos925":
+                    parserIdentifier = self.__settings.getString("source_bos925", "parser", "gifhorn")
+                    parserPlugin = self.__loadParserPlugin(source, parserIdentifier)
+                    sourceModule = importlib.import_module("backend.source.SourceDriverBOS925")
+                    sourcePlugin = sourceModule.SourceDriverBOS925(instanceName, self.__settings, parserPlugin) # type: ignore
                 else:
                     self.fatal(f"Invalid source plugin {source}")
 
